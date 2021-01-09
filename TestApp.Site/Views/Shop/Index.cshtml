@@ -1,0 +1,11 @@
+﻿@model TestApp.Site.Models.Shop.ShopMainModel
+
+<h4 class="text-primary text-center">@Model.title</h4>
+<div class="row">
+    @{
+        await Html.RenderPartialAsync("CategoryCol", Model.Categories);
+    }
+    @{
+        await Html.RenderPartialAsync("Items", Model.items);
+    }
+</div>

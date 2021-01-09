@@ -1,0 +1,61 @@
+﻿@model TestApp.Site.Models.Order.MakeOrderModel
+
+<h4>MakeOrderModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MakeOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="orderDeliveryMethod" class="control-label">Delivery method</label>
+                <select asp-for="orderDeliveryMethod" class="form-control">
+                    @foreach (var orderDeliveryMethod in Model.deliveryMethods)
+                    {
+                        <option value="@orderDeliveryMethod.Id">@orderDeliveryMethod.name</option>
+                    }
+                </select>
+                <span asp-validation-for="orderDeliveryMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="orderPayMethod" class="control-label">Delivery method</label>
+                <select asp-for="orderPayMethod" class="form-control">
+                    @foreach (var orderPayMethod in Model.payMethods)
+                    {
+                        <option value="@orderPayMethod.Id">@orderPayMethod.name</option>
+                    }
+                </select>
+                <span asp-validation-for="orderPayMethod" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </form>
+    </div>
+    <div class="col-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Item</td>
+                    <td>Quantity</td>
+                    <td>Price per item</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.cart.CartItems)
+                {
+                    <tr>
+                        <td>@item.Item.title</td>
+                        <td>@item.quantity</td>
+                        <td>@item.Item.price</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td>Total:</td>
+                    <td>@Model.cart.CartItems.Sum(x => x.Item.price * x.quantity)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

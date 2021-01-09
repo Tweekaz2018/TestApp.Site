@@ -1,0 +1,48 @@
+﻿@model PageViewModel<TestApp.Domain.Order>
+
+<div class="btn-group" role="group">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-dark">To index page</a>
+    <button onclick="history.back()" class="btn btn-outline-primary">Back</button>
+</div>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Delivery</td>
+            <td>Pay method</td>
+            <td>User</td>
+            <td>Total</td>
+            <td>Date</td>
+        </tr>
+    </thead>
+    @foreach (var order in Model.list)
+    {
+        <tr onclick="GetOrderDetails(@order.Id)">
+            <td>Order №@order.Id</td>
+            <td>@order.OrderDeliveryMethod.name</td>
+            <td>@order.OrderPayMethod.name</td>
+            <td>@order.User.login</td>
+            <td>@order.OrderItems.Sum(x=>x.item.price * x.quantity)</td>
+            <td>@order.DateCreate.ToString("MM-dd-yyyy")</td>
+        </tr>
+    }
+</table>
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="GetOrdersPage"
+       asp-route-page="@(Model.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Back
+    </a>
+}
+@if (Model.HasNextPage)
+{
+    <a asp-action="GetOrdersPage"
+       asp-route-page="@(Model.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

@@ -1,0 +1,44 @@
+﻿@model PageViewModel<TestApp.Domain.OrderDeliveryMethod>
+
+<div class="btn-group" role="group">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-dark">To index page</a>
+    <button onclick="history.back()" class="btn btn-outline-primary">Back</button>
+    <button class="btn btn-outline-success" onclick="AddDeliveryMethodModal()">Add delivery method</button>
+</div>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    @foreach (var item in Model.list)
+    {
+        <tr>
+            <td><input type="text" data-id="@item.Id" value="@item.name" /></td>
+            <td>
+                <button class="btn btn-primary" onclick="UpdateDeliveryMethod(@item.Id)">Save</button>
+                <button class="btn btn-secondary" onclick="DeleteDeliveryMethod(@item.Id)">Delete</button>
+            </td>
+        </tr>
+    }
+</table>
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="GetOrdersDeliveryMethodsPage"
+       asp-route-page="@(Model.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Back
+    </a>
+}
+@if (Model.HasNextPage)
+{
+    <a asp-action="GetOrdersDeliveryMethodsPage"
+       asp-route-page="@(Model.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

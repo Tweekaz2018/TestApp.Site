@@ -1,0 +1,53 @@
+﻿@model PageViewModel<TestApp.Domain.Item>
+
+
+<div class="btn-group" role="group">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-dark">To index page</a>
+    <button class="btn btn-outline-success" onclick="GetItemAddModal()">Add item</button>
+</div>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Image</td>
+            <td>Title</td>
+            <td>Descritpion</td>
+            <td>Price</td>
+            <td>Category</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.list)
+        {
+            <tr>
+                <td style="max-height: 200px; max-width: 200px;">
+                    <img src="@item.imagePath" width="200" height="200" />
+                </td>
+                <td>@item.title</td>
+                <td>@item.description</td>
+                <td>@item.price</td>
+                <td>@item.Category.name</td>
+                <td><a asp-controller="Admin" asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="GetItemsPage"
+       asp-route-page="@(Model.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Back
+    </a>
+}
+@if (Model.HasNextPage)
+{
+    <a asp-action="GetItemsPage"
+       asp-route-page="@(Model.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

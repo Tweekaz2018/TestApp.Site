@@ -1,0 +1,49 @@
+﻿@model TestApp.Site.Models.Order.OrderDetailsModalModel
+@{
+    Layout = null;
+}
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>Order @Model.order.Id</h4>
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <table class="table">
+                <tr>
+                    <td>Delivery:</td>
+                    <td>@Model.order.OrderDeliveryMethod.name</td>
+                </tr>
+                <tr>
+                    <td>Pay method:</td>
+                    <td>@Model.order.OrderPayMethod.name</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>@Model.order.OrderItems.Sum(x => x.item.price * x.quantity)</td>
+                </tr>
+            </table>
+            <h5>Items: </h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>Item</td>
+                        <td>Quantity</td>
+                        <td>Price per item</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model.order.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.item.title</td>
+                            <td>@item.quantity</td>
+                            <td>@item.item.price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

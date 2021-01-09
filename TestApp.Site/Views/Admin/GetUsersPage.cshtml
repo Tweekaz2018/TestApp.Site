@@ -1,0 +1,48 @@
+﻿@model PageViewModel<TestApp.Domain.User>
+
+
+
+<div class="btn-group" role="group">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-dark">To index page</a>
+    <button onclick="history.back()" class="btn btn-outline-primary">Back</button>
+</div>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Login</td>
+            <td>Phone</td>
+            <td>Role</td>
+            <td>Orders count</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    @foreach (var user in Model.list)
+    {
+        <tr>
+            <td>@user.login</td>
+            <td>@user.phone</td>
+            <td>@user.UserRole.name</td>
+            <td>@user.Orders.Count</td>
+            <td><a asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id" class="btn btn-danger">Remove</a></td>
+        </tr>
+    }
+</table>
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="GetUsersPage"
+       asp-route-page="@(Model.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Back
+    </a>
+}
+@if (Model.HasNextPage)
+{
+    <a asp-action="GetUsersPage"
+       asp-route-page="@(Model.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

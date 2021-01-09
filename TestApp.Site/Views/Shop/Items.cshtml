@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TestApp.Domain.Item>
+@{
+    Layout = null;
+}
+    <div class="col-10">
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+                if (i == 0)
+                {
+                    @: <div class="card-deck">
+                }
+                        <div class="card bg-dark text-white" style="margin: 10px">
+
+                        <img class="card-img" src="@item.imagePath" alt="@item.title">
+                        <div class="card-img-overlay">
+                            <div style="background-color: rgba(255, 255, 255, 0.7)">
+                                <h5 class="card-title text-dark">@item.title</h5>
+                                <p class="card-text text-dark">
+                                    @if (item.description.Count() > 137)
+                                    {
+                                        @(item.description.Substring(0, 137) + "...")
+                                    }
+                                    else
+                                    {
+                                        @item.description
+                                    }
+                                </p>
+                                <a asp-controller="Shop" asp-action="ItemDetails" asp-route-id="@item.Id" class="btn btn-outline-dark">Details</a>
+                            </div>
+                            
+                        </div>
+                            </div>
+                i = i + 1;
+                        @if (i == 2)
+                        {
+                           @: </div>
+                            i = 0;
+                        }
+                }
+            }
+    </div>

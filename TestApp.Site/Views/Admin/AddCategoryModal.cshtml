@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>New category</h4>
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <form asp-action="AddCategory">
+            <div class="form-group">
+                <label>Category name:</label>
+                <input type="text" name="categoryName" class="form-control" />
+                <br />
+                <input type="submit" class="btn btn-primary" value="Save">
+            </div>
+        </form>
+    </div>
+</div>

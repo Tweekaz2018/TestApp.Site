@@ -1,0 +1,30 @@
+﻿@model TestApp.Site.Models.Home.UserProfileModel
+
+
+<h4>@Model.user.login</h4>
+<label>Phone:</label>
+<p>@Model.user.phone</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Order</td>
+            <td>Date</td>
+            <td>Total</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var order in Model.user.Orders)
+        {
+            <tr>
+                <td>
+                    <a onclick="GetOrderDetails(@order.Id)">Order №@order.Id</a>
+                </td>
+                <td>@order.DateCreate.ToString("MM-dd-yyyy")</td>
+                <td>
+                    @order.OrderItems.Sum(x=>x.item.price * x.quantity)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

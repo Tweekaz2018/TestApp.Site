@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4>Add to cart</h4>
+            <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <input type="hidden" id="ItemId" value="@ViewBag.ItemId" />
+                <label>Select quantity:</label>
+                <input type="number" step="1" min="1" id="quantity" required value="1" class="form-control" />
+                <br />
+                <button class="btn btn-primary" onclick="MakeOrder()">See your cart</button>
+                <button class="btn btn-secondary" onclick="ContinueShopping()">Add and continue shopping</button>
+            </div>
+        </div>
+    </div>

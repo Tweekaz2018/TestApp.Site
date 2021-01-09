@@ -1,0 +1,18 @@
+﻿@model TestApp.Domain.Item
+
+    <div class="card">
+        <img class="card-img-top" src="@Model.imagePath" alt="@Model.title">
+        <div class="card-body">
+            <h5 class="card-title">@Model.title</h5>
+            <p class="card-text">@Model.description</p>
+            <p class="card-text"><small class="text-muted">@Model.Category.name</small></p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button class="btn btn-outline-dark" onclick="AddItemToCartModal(@Model.Id)">Add to cart</button> 
+            }
+            else
+            {
+                <a asp-controller="Login" asp-action="Login" class="btn btn-success">Sing In to buy</a>
+            }
+        </div>
+    </div>

@@ -1,0 +1,47 @@
+﻿@model PageViewModel<TestApp.Domain.Order>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>User</td>
+            <td>User phone</td>
+            <td>Order date</td>
+            <td>Delivery</td>
+            <td>Payment method</td>
+            <td>Order total</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.list)
+        {
+            <tr onclick="GetOrderDetails(@order.Id)">
+                <td>@order.User.login</td>
+                <td>@order.User.phone</td>
+                <td>@order.DateCreate.ToString("MM-dd-yyyy")</td>
+                <td>@order.OrderDeliveryMethod.name</td>
+                <td>@order.OrderPayMethod.name</td>
+                <td>@order.OrderItems.Sum(x=>x.item.price * x.quantity)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Back
+    </a>
+}
+@if (Model.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
