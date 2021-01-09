@@ -9,9 +9,9 @@ namespace TestApp.Site.Models
     public class AddToCartModel
     {
         [Required]
-        public int ItemId;
+        public int ItemId { get; set; }
         [Required]
         [Display(Name = "Quantity")]
-        public int quantity;
+        public int quantity { get; set; }
     }
 }

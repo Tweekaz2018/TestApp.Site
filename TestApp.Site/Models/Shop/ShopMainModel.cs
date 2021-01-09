@@ -8,8 +8,8 @@ namespace TestApp.Site.Models.Shop
 {
     public class ShopMainModel
     {
-        public string title;
-        public IEnumerable<Category> Categories;
-        public IEnumerable<Item> items;
+        public string title { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
+        public IEnumerable<Item> items { get; set; }
     }
 }

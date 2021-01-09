@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestApp.Services.Interfaces;
 using TestApp.Site.Models;
+using TestApp.Site.Models.Cart;
 
 namespace TestApp.Site.Controllers
 {
@@ -21,7 +22,11 @@ namespace TestApp.Site.Controllers
         public async Task<IActionResult> Index()
         {
             var cart = await _cartService.GetCart(int.Parse(User.Identity.Name));
-            return View(cart);
+            IndexModel model = new IndexModel()
+            {
+                cart = cart
+            };
+            return View(model);
         }
 
         [HttpGet]

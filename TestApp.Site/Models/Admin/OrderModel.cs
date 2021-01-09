@@ -26,7 +26,7 @@ namespace TestApp.Site.Models.Admin
         [FileExtensions(Extensions = "jpg,jpeg,png")]
         public IFormFile image { get; set; }
 
-        public IEnumerable<Category> categories;
+        public IEnumerable<Category> categories { get; set; }
 
     }
 }

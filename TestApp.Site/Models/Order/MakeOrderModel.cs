@@ -15,9 +15,9 @@ namespace TestApp.Site.Models.Order
         [Required]
         public int orderPayMethod { get; set; }
 
-        public User user;
-        public Domain.Cart cart;
-        public IEnumerable<OrderDeliveryMethod> deliveryMethods;
-        public IEnumerable<OrderPayMethod> payMethods;
+        public User user { get; set; }
+        public Domain.Cart cart { get; set; }
+        public IEnumerable<OrderDeliveryMethod> deliveryMethods { get; set; }
+        public IEnumerable<OrderPayMethod> payMethods { get; set; }
     }
 }

@@ -8,6 +8,6 @@ namespace TestApp.Site.Models.Home
 {
     public class UserProfileModel
     {
-        public User user;
+        public User user { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace TestApp.Site.Models.Cart
 {
     public class IndexModel
     {
-
+        public Domain.Cart cart { get; set; }
     }
 }

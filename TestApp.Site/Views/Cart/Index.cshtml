@@ -1,11 +1,11 @@
-﻿@model TestApp.Domain.Cart
+﻿@model TestApp.Site.Models.Cart.IndexModel
 
 
-@if (Model.CartItems!= null)
+@if (Model.cart.CartItems!= null)
 {
 <div class="btn-group" role="group" aria-label="Basic example">
     <a class="btn btn-outline-success" asp-controller="Order" asp-action="MakeOrder">Checkout</a>
-    <a class="btn btn-outline-info" asp-controller="Cart" asp-action="ClearCart" asp-route-id="@Model.Id">Clear all</a>
+    <a class="btn btn-outline-info" asp-controller="Cart" asp-action="ClearCart" asp-route-id="@Model.cart.Id">Clear all</a>
 </div>
 
 <table class="table table-striped">
@@ -18,23 +18,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.CartItems)
+        @foreach (var item in Model.cart.CartItems)
         {
-            <tr>
+            <tr>    
                 <td>@item.Item.title</td>
                 <td>
-                    <a class="btn btn-outline-dark" asp-controller="Cart" asp-action="SupplementItemInCart" asp-route-cartId="@Model.Id" asp-route-itemId="@item.ItemId">+</a>
+                    <a class="btn btn-outline-dark" asp-controller="Cart" asp-action="SupplementItemInCart" asp-route-cartId="@Model.cart.Id" asp-route-itemId="@item.ItemId">+</a>
                     @item.quantity
-                    <a class="btn btn-outline-dark" asp-controller="Cart" asp-action="DevideItemIncart" asp-route-cartId="@Model.Id" asp-route-itemId="@item.ItemId">-</a>
+                    <a class="btn btn-outline-dark" asp-controller="Cart" asp-action="DevideItemIncart" asp-route-cartId="@Model.cart.Id" asp-route-itemId="@item.ItemId">-</a>
                 </td>
                 <td>@item.Item.price</td>
-                <td><a class="btn btn-outline-danger" asp-controller="Cart" asp-action="RemoveItemFromCart" asp-route-cartId="@Model.Id" asp-route-itemId="@item.ItemId">Remove</a></td>
+                <td><a class="btn btn-outline-danger" asp-controller="Cart" asp-action="RemoveItemFromCart" asp-route-cartId="@Model.cart.Id" asp-route-itemId="@item.ItemId">Remove</a></td>
             </tr>
         }
         <tr style="border: 1 solid black">
             <td></td>
             <td>Total:</td>
-            <td>@Model.CartItems.Sum(x => x.Item.price * x.quantity)</td>
+            <td>@Model.cart.CartItems.Sum(x => x.Item.price * x.quantity)</td>
             <td></td>
         </tr>
     </tbody>

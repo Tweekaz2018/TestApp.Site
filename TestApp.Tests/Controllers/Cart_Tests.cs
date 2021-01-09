@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TestApp.Domain;
 using TestApp.Services.Interfaces;
 using TestApp.Site.Controllers;
+using TestApp.Site.Models.Cart;
 using TestApp.Tests.Helpers;
 
 namespace TestApp.Tests.Controllers
@@ -55,8 +56,8 @@ namespace TestApp.Tests.Controllers
             var result = await controller.Index();
 
             var viewResult = Xunit.Assert.IsType<ViewResult>(result);
-            var model = Xunit.Assert.IsType<Cart>(viewResult.ViewData.Model);
-            Assert.IsNotNull(model.CartItems);
+            var model = Xunit.Assert.IsType<IndexModel>(viewResult.ViewData.Model);
+            Assert.IsNotNull(model.cart.CartItems);
         }
 
         [TestMethod]
