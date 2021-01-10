@@ -23,7 +23,8 @@ namespace TestApp.Site.Models.Admin
         [Display(Name = "Category")]
         public int categoryId { get; set; }
         [Display(Name = "Image")]
-        [FileExtensions(Extensions = "jpg,jpeg,png")]
+        [FileExtensionCheck("jpg,jpeg,png", ErrorMessage ="File extension need to be jpg, jpeg or png")]
+        [Required]
         public IFormFile image { get; set; }
 
         public IEnumerable<Category> categories { get; set; }

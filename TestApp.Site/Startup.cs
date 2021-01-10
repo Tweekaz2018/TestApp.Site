@@ -36,6 +36,7 @@ namespace TestApp.Site
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ISecurityService, SecurityService>();
+            services.AddTransient<ISaveFile, SaveFileService>();
 
             services.AddControllersWithViews();
         }

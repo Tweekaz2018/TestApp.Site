@@ -13,11 +13,11 @@ using TestApp.Integration_Tests.Helpers;
 
 namespace TestApp.Integration_Tests
 {
-    public class Auth_and_Reg_Tests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class Login_Tests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<TestApp.Site.Startup> _factory;
         private readonly HttpClient _hc;
-        public Auth_and_Reg_Tests(CustomWebApplicationFactory<TestApp.Site.Startup> factory)
+        public Login_Tests(CustomWebApplicationFactory<TestApp.Site.Startup> factory)
         {
             _factory = factory;
             _hc = factory.CreateClient(new Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactoryClientOptions
