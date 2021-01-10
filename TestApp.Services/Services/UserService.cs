@@ -11,8 +11,8 @@ namespace TestApp.Services.Services
 {
     public class UserService : IUserService
     {
-        private readonly ISecurityService passwordService;
-        private readonly IRepository<User> _usersRepo;
+        private readonly ISecurityService _passwordService;
+        private IRepository<User> _usersRepo;
         private readonly IRepository<UserRole> _userRolesRepo;
         private readonly IRepository<Cart> _cartsRepo;
         private readonly IRepository<CartItem> _cartItemsRepo;
@@ -34,7 +34,7 @@ namespace TestApp.Services.Services
             _cartItemsRepo = cartItems;
             _ordersRepo = ordersRepo;
             _orderItemsRepo = orderItemsRepo;
-            passwordService = securityService;
+            _passwordService = securityService;
         }
 
         public async Task<int> AddRole(UserRole role)
@@ -46,10 +46,10 @@ namespace TestApp.Services.Services
         {
             User user = await _usersRepo.GetRepo().SingleOrDefaultAsync(x => x.Id == userId);
             if (user == null)
-                throw new Exception("Cant find user");
+                return;
             UserRole role = await _userRolesRepo.GetRepo().SingleOrDefaultAsync(x => x.Id == roleId);
             if (role == null)
-                throw new Exception("Cant find role");
+                return;
             user.UserRoleId = role.Id;
             await _usersRepo.UpdateAsync(user);
         }
@@ -59,7 +59,7 @@ namespace TestApp.Services.Services
             User user = await _usersRepo.GetRepo().SingleOrDefaultAsync(x => x.login == login);
             if (user == null)
                 return false;
-            return passwordService.CheckPassword(password, user.password);
+            return _passwordService.CheckPassword(password, user.password);
         }
 
         public async Task DeleteRole(UserRole role)
@@ -111,7 +111,7 @@ namespace TestApp.Services.Services
             var validation = await _usersRepo.GetRepo().SingleOrDefaultAsync(x => x.login == user.login);
             if (validation != null)
                 throw new InvalidOperationException("Login should not be repeated");
-            string hashedPassword = passwordService.HashPassword(user.password);
+            string hashedPassword = _passwordService.HashPassword(user.password);
             user.password = hashedPassword;
             user.UserRoleId = 2;
             await _usersRepo.AddAsync(user);

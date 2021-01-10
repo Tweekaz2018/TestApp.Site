@@ -24,6 +24,7 @@ namespace TestApp.Site.Controllers
             _cartService = cartService;
             _userService = userService;
         }
+        [HttpGet]
         public async Task<IActionResult> MakeOrder()
         {
             int cartId = int.Parse(User.Identity.Name);

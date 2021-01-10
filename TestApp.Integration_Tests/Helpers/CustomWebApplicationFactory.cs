@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TestApp.Repo;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.InMemory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-namespace TestApp.Tests.Helpers
+namespace TestApp.Integration_Tests.Helpers
 {
+
     public class CustomWebApplicationFactory<TStartup>
     : WebApplicationFactory<TStartup> where TStartup : class
     {
@@ -22,7 +28,7 @@ namespace TestApp.Tests.Helpers
 
                 services.AddDbContext<Context>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseInMemoryDatabase("testDB");
                 });
 
                 var sp = services.BuildServiceProvider();
@@ -33,7 +39,7 @@ namespace TestApp.Tests.Helpers
                     var db = scopedServices.GetRequiredService<Context>();
 
                     db.Database.EnsureCreated();
-                    RepositoryHelper.InitializeDbForTests(db);
+                    RepositoryHelper.ReinitializeDbForTests(db);
                 }
             });
         }

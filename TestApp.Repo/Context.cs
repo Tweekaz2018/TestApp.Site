@@ -27,7 +27,7 @@ namespace TestApp.Repo
             {
                 Id = 1,
                 login = "Admin",
-                password = "X5KbOtT76NbKxf50L3oLYTgMBwO+7Q0/WNc8dZqapz4=",
+                password = "FxPFTPF9lzc4xOwc/uYc5Z1e3kFSNk5Usg85K9YqkeE=",
                 phone = "0635170358",
                 UserRoleId = 1
             });

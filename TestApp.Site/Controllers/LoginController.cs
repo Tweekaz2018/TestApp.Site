@@ -42,6 +42,10 @@ namespace TestApp.Site.Controllers
                     await Authenticate(user);
                     return RedirectToAction("Index", "Home");
                 }
+                else
+                {
+                    ModelState.AddModelError("password", "Password isn-t valid");
+                }
             }
 
             return View(model);

@@ -1,74 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MockQueryable.Moq;
-using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TestApp.Domain;
 using TestApp.Repo;
 
-namespace TestApp.Tests.Helpers
+namespace TestApp.Integration_Tests.Helpers
 {
-    class RepositoryHelper
+    public class RepositoryHelper
     {
-        public Mock<IRepository<T>> GetMockedRepo<T>(Context db) where T : Entity
-        {
-            var set = db.Set<T>();
-            var mock = new Mock<IRepository<T>>();
-            mock.Setup(x => x.AddAsync(It.IsAny<T>()))
-                .ReturnsAsync((T item) =>
-                {
-                    set.Add(item);
-                    db.SaveChanges();
-                    return item.Id;
-                });
-            mock.Setup(x => x.RemoveAsync(It.IsAny<T>()))
-                .Returns((T item) =>
-                {
-                    set.Remove(item);
-                    return db.SaveChangesAsync();
-                });
-            mock.Setup(x => x.UpdateAsync(It.IsAny<T>()))
-                .Returns((T item) =>
-                {
-                    set.Update(item);
-                    return db.SaveChangesAsync();                    
-                });
-            mock.Setup(x => x.GetRepo())
-                .Returns(set);
-            mock.Setup(x => x.AddRangeAsync(It.IsAny<IEnumerable<T>>()))
-                .Returns((IEnumerable<T> items) =>
-                {
-                    set.AddRange(items);
-                    return db.SaveChangesAsync();
-                });
-            mock.Setup(x => x.RemoveRangeAsync(It.IsAny<IEnumerable<T>>()))
-                .Returns((IEnumerable<T> items) =>
-                {
-                    set.RemoveRange(items);
-                    return db.SaveChangesAsync();
-                });
-            return mock;
-        }
-        public static DbContextOptions<Context> TestDbContextOptions()
-        {
-            // Create a new service provider to create a new in-memory database.
-            var serviceProvider = new ServiceCollection()
-                .AddEntityFrameworkInMemoryDatabase()
-                .BuildServiceProvider();
-
-            // Create a new options instance using an in-memory database and 
-            // IServiceProvider that the context should resolve all of its 
-            // services from.
-            var builder = new DbContextOptionsBuilder<Context>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .UseInternalServiceProvider(serviceProvider);
-
-            return builder.Options;
-        }
         public static void InitializeDbForTests(Context db)
         {
             RepositoryHelper helper = new RepositoryHelper();
@@ -82,6 +22,7 @@ namespace TestApp.Tests.Helpers
             itemSet.AddRange(helper.GetItems());
             var orderSet = db.Set<Order>();
             orderSet.AddRange(helper.GetOrders());
+            
             var orderDMSet = db.Set<OrderDeliveryMethod>();
             orderDMSet.AddRange(helper.GetOrderDeliveryMethods());
             var orderItemSet = db.Set<OrderItem>();
@@ -92,9 +33,37 @@ namespace TestApp.Tests.Helpers
             usersSet.AddRange(helper.GetUsers());
             var userRolesSet = db.Set<UserRole>();
             userRolesSet.AddRange(helper.GetUserRoles());
-            db.SaveChanges();
+            
+            var res = db.SaveChanges();
         }
 
+        public static void ReinitializeDbForTests(Context db)
+        {
+            RepositoryHelper helper = new RepositoryHelper();
+            var cartSet = db.Set<Cart>();
+            cartSet.RemoveRange(cartSet.ToList());
+            var cartItemsSet = db.Set<CartItem>();
+            cartItemsSet.RemoveRange(cartItemsSet.ToList());
+            var categorySet = db.Set<Category>();
+            categorySet.RemoveRange(categorySet.ToList());
+            var itemSet = db.Set<Item>();
+            itemSet.RemoveRange(itemSet.ToList());
+            var orderSet = db.Set<Order>();
+            orderSet.RemoveRange(orderSet.ToList());
+
+            var orderDMSet = db.Set<OrderDeliveryMethod>();
+            orderDMSet.RemoveRange(orderDMSet.ToList());
+            var orderItemSet = db.Set<OrderItem>();
+            orderItemSet.RemoveRange(orderItemSet.ToList());
+            var orderPMSet = db.Set<OrderPayMethod>();
+            orderPMSet.RemoveRange(orderPMSet.ToList());
+            var usersSet = db.Set<User>();
+            usersSet.RemoveRange(usersSet.ToList());
+            var userRolesSet = db.Set<UserRole>();
+            userRolesSet.RemoveRange(userRolesSet.ToList());
+            db.SaveChanges();
+            InitializeDbForTests(db);
+        }
         public List<User> GetUsers()
         {
             return new List<User>()
@@ -103,14 +72,9 @@ namespace TestApp.Tests.Helpers
                 {
                     Id = 1,
                     login = "Admin",
-                    password = "nimda",
+                    password = "X5KbOtT76NbKxf50L3oLYTgMBwO+7Q0/WNc8dZqapz4=",
                     phone = "123123123",
-                    UserRoleId = 3,
-                    UserRole = new UserRole()
-                    {
-                        Id = 3,
-                        name= "Admin"
-                    }
+                    UserRoleId = 2
                 },
                 new User()
                 {
@@ -309,6 +273,5 @@ namespace TestApp.Tests.Helpers
                  }
             };
         }
-
     }
 }
