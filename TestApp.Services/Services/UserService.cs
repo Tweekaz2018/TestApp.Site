@@ -115,7 +115,7 @@ namespace TestApp.Services.Services
             user.password = hashedPassword;
             user.UserRoleId = 2;
             await _usersRepo.AddAsync(user);
-            await _cartsRepo.AddAsync(new Cart() { Id = user.Id, UserId = user.Id });
+            await _cartsRepo.AddAsync(new Cart() {UserId = user.Id });
             return user.Id;
         }
 
